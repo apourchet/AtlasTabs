@@ -9,9 +9,19 @@ var dbName = "bigred";
 var collectionName = "testColl";
 var db = new Db(dbName, new Server(mongoHost, mongoPort), {safe: false});
 
-BigRedDb.insertData = function(data, cb) {
+BigRedDb.getDatabase = function(cb) {
     db.open(function(err, db) {
-	    if(err) { return console.log(err); }
+        db.authenticate('api', 'apipass', function(err, result) {
+            if(err) { return console.log(err); }
+            cb(db, function() {
+                db.close();
+            });
+        });
+    });
+}
+
+BigRedDb.insertData = function(data, cb) {
+    BigRedDb.getDatabase(function(db, endF) {
 	    console.log("Connected to database " + dbName + "!");
 	
 	    var collection = db.collection(collectionName);
@@ -19,15 +29,17 @@ BigRedDb.insertData = function(data, cb) {
             if (err) {
                 console.log(err)
             }
-            db.close();
             cb()
+            endF()
         });
     });
 }
 
+BigRedDb.insertData(["asd.net"], function(){
+})
+
 BigRedDb.getTrending = function(params, cb) {
-    db.open(function(err, db) {
-    	if(err) { return console.log(err); }
+    BigRedDb.getDatabase(function(db, endF) {
     	console.log("Connected to database " + dbName + "!");
     	
     	var collection = db.collection(collectionName);
