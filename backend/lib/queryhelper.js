@@ -38,43 +38,41 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
         };
     };
     myArray.sort(function(a,b) {
-        var boo = a.url === b.url
-        if (boo && a.distance == b.distance) return a.timeDifference > b.timeDifference
-        return boo ? a.distance > b.distance : a.url > b.url
+        return a.url > b.url
     });
     var semiFinalArray = [] 
-    var u = ""
-    var num = 0
-    var sum = 0
-    for (var e in myArray){
-        if (num == 9) {
-            continue
+    var u = myArray[0].url
+    var sim = []
+    for (var i = 0; i < myArray.length; i++){
+        var s = Math.exp(myArray[0].distance) + Math.exp(myArray[0].timeDifference)
+        if (u !== myArray[i].url){
+            sim.push(s)
         }
-        if (myArray[e].url !== u){
-            if (u === "") {
-                u = myArray[e].url
-                continue
-            }
-            semiFinalArray.push({url: u, similarity: Math.log(num)/(sum/num)})
-            num = 0;
-            u = myArray[e].url
-            sum = 0
-        } else{
-            num ++;
-            sum += (Math.exp(myArray[e].distance) * Math.exp(myArray[e].timeDifference))
+        else {
+            semiFinalArray.push({url: u, similarities: sim.sort()})
+            u = myArray[i].url
+            sim = [s]
         }
     };
     console.log("SemifinalArray: " + semiFinalArray.length)
-    semiFinalArray.sort(function(a,b){
-        return a.similarity < b.similarity
-    });
-    var finalArray = []
-    num = 0
-    for(var e in semiFinalArray){
-        finalArray.push(semiFinalArray[e])
-        num++
-        if (num == 5)
-            break
-    };
-    return finalArray
+    finalArray = []
+    for (var elem in semiFinalArray){
+        var sum = 0
+        var num = 0
+        for (var e in semiFinalArray[elem].similarities){
+            num ++
+            sum += semiFinalArray[elem].similarities[e]
+            if (num == 10)
+                break
+        }
+        finalArray.push({url: semiFinalArray[elem].url, sim: (Math.log(num)/(sum/num))})
+    }
+    finalArray.sort(function(a,b){
+        return a.sim < b.sim
+    })
+    var returnArray = []
+    for (var i = 0; i < 5 && i < finalArray.length; i++){
+        returnArray.push(finalArray[i].url)
+    }
+    return returnArray
 }
