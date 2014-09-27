@@ -19,6 +19,20 @@ DomChanger.displaySuggestions = function(urls) {
     }
 }
 
+DomChanger.openTabs = function(urls) {
+    var createProperties = {
+        active: false,
+        selected: false
+    };
+    for (var i in urls) {
+        var url = urls[i]
+        if (url.indexOf("http") != 0) {
+            url = "http://" + url
+        }
+        createProperties.url = url
+        chrome.tabs.create(createProperties, function(tab) {});
+    }
+}
 
 $(document).ready(function(){
     console.log("Ready!!");
