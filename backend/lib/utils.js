@@ -1,18 +1,14 @@
 var Utils = exports = module.exports
 
 var TOP_SLASH_NUMBER = 3
+var BLACK_LIST = ["chrome", "file"]
 
 Utils.isUrlValid = function(url) {
-    if (url.indexOf("chrome-extension") == 0) {
-        return false
-    } else if (url.indexOf("chrome://extensions") == 0) {
-        return false
-    } else if (url.indexOf("chrome://newtab") == 0) {
-        return false
-    } else if (url.indexOf("chrome-") == 0) {
-        return false
+    for (var i in BLACK_LIST) {
+        if (url.indexOf(BLACK_LIST[i]) == 0) {
+            return false
+        }
     }
-
     return true
 }
 
@@ -65,5 +61,12 @@ Utils.reformatData = function(data) {
     data.location = [Number(data.location[0]), Number(data.location[1])]
     data.timeDifference = Number(data.timeDifference)
     data.distance = Number(data.distance)
+    for (var i in data.URLs) {
+        url = data.URLs[i];
+        if (!Utils.isUrlValid(url)) {
+            data.URLs.splice(i,1)
+            i--
+        }
+    }
     return data
 }
