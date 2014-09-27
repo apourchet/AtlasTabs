@@ -33,7 +33,7 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
             myArray.push({url: elem[f], timeDifference: td, distance: d})
         };
     };
-    myArray.sort(function(a,b)){
+    myArray.sort(function(a,b) {
         var boo = a.url === b.url
         if (boo && a.distance == b.distance) return a.timeDifference > b.timeDifference
         return a.url === b.url ? a.distance > b.distance : a.url > b.url
@@ -49,7 +49,7 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
         //stuff
         if (num == 0)
             continue
-        semiFinalArray.push({url: u, similarity = Math.log(num)/(sum/num)})
+        semiFinalArray.push({url: u, similarity: Math.log(num)/(sum/num)})
         num = 0;
         u = myArray[e].url
         sum = 0
