@@ -22,14 +22,12 @@ function send_data() {
 		var lon = 0;
 		if (navigator.geolocation) {
 		    navigator.geolocation.getCurrentPosition(function (position){
-		    	console.log("Got the geolocation!!!	")
 			   	lat = position.coords.latitude
 			   	lon = position.coords.longitude
                 var obj = {
                     userId: userId,
                     URLs: currentTabs,
-                    time: new Date().getTime(),
-                    location: {latitude: lat, longitude: lon},
+                    location: [Number(lon), Number(lat)],
                     distance: -1,
                     timeDifference: -1
                 }
