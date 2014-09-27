@@ -28,12 +28,12 @@ app.use(express.cookieSession({
 
 // Sample middleware and session use
 app.use(function(req, res, next) {
-	console.log("Middleware here!");
+	// console.log("Middleware here!");
 	if (!req.session.counter) {
 		req.session.counter = 0;
 	}
 	req.session.counter++;
-	console.log("Session counter: " + req.session.counter);
+	// console.log("Session counter: " + req.session.counter);
 	next();
 });
 
