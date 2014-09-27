@@ -1,27 +1,30 @@
 
 chrome.storage.local.clear(function() {
 });
-var currentTabs;
+var currentTabs = [];
 
 function send_data() {
-	if (currentTabs.length == 0) {
-		return;
-	}
+	currentTabs = []
+	loop()
+	var lat = 0;
+	var lon = 0;
 	if (navigator.geolocation) {
 	    navigator.geolocation.getCurrentPosition(function (position){
 		   	lat = position.coords.latitude
 		   	lon = position.coords.longitude
    		})
 	}
-	chrome.runtime.sendMessage({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1}, function(response) {
+	console.log({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1, timeDifference: -1})
+	chrome.runtime.sendMessage({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1, timeDifference: -1}, function(response) {
 	});
 }
 
 function loop() {
 	chrome.tabs.getAllInWindow(null, function(tabs) {
-		currentTabs = tabs
+		for (var i in tabs) {
+			currentTabs.push(tabs[i].url) 
+		}
 	});
 }
 
-setInterval(loop, 200);
-setInterval(send_data, 50);
+setInterval(send_data, 1000);
