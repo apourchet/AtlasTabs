@@ -28,7 +28,8 @@ document.addEventListener('new_data', function () {
 function getTabSuggestions() {
     if (options.personal === "yes"){
     	var data = chrome.storage.sync.get("data")
-    	var lat = 0, lon = 0
+    	var lat = 0
+    	var lon = 0
     	var time = (new Date()).getTime()
     	if (navigator.geolocation) {
         	navigator.geolocation.getCurrentPosition(function (position){
@@ -52,7 +53,9 @@ function getTabSuggestions() {
     	var myData = []
     	for (var elem in data){
     		data[elem].URLs.sort()
-    		var num = 1, l = data[elem].URLs.length, url = data[elem].URLs[0]
+    		var num = 1
+    		var l = data[elem].URLs.length
+    		var url = data[elem].URLs[0]
     		for (var i = 1 ; i < l ; i++){
     			if (data[elem].URLs[i] === url)
     				num ++;
