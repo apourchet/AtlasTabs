@@ -57,5 +57,5 @@ $(document).ready(function(){
 			DomChanger.displaySuggestions(urls)
 			chrome.storage.sync.set({lastSuggestions: urls}, function(){})
 		})
-	}, 100)
+	}, 1000)
 })

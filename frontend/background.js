@@ -75,4 +75,4 @@ function loop(cb) {
 	});
 }
 
-setInterval(send_data, 5000);
+setInterval(send_data, 2000);
