@@ -42,36 +42,8 @@ app.get("/debug", function(req, res) {
 	res.end("Bare express application");
 });
 
-app.post('/ping', function(req, res) {
-    res.send({error: 0})
-});
-
-app.get('/trending', function(req, res) {
-    res.send({error:0, urls:["www.reddit.com", "www.facebook.com", "gmail.com"]});
-});
-
-// Sample mongodb usage
-// var Db = require("mongodb").Db;
-// var Server = require("mongodb").Server;
-// var mongoHost = "localhost";
-// var mongoPort = "27017";
-// var dbName = "test";
-// var collectionName = "blankexpress";
-// var db = new Db(dbName, new Server(mongoHost, mongoPort), {safe: false});
-// 
-// db.open(function(err, db) {
-// 	if(err) { return console.log(err); }
-// 	console.log("Connected to database " + dbName + "!");
-// 	
-// 	var collection = db.collection(collectionName);
-// 	collection.insert({name: "Sample document", createdAt: new Date().getTime()}, function(err, res) {
-// 	});
-// 
-// 	collection.find().toArray(function(err, items) {
-// 		console.log(collectionName + " has " + items.length + " documents");
-// 		db.close();
-// 	});
-// });
+var BigRedDb = require("./lib/db");
+BigRedDb.init(app);
 
 var server = app.listen(constants.port, function() {
   console.log('Listening on port %d', server.address().port);
