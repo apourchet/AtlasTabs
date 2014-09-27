@@ -60,17 +60,13 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
         for (var e in semiFinalArray[elem].similarities){
             num ++
             sum += semiFinalArray[elem].similarities[e]
-            if (num == 10)
-                break
+            //if (num == 10)
+            //    break
         }
         finalArray.push({url: semiFinalArray[elem].url, sim: (Math.log(num)/(sum/num))})
     }
     finalArray.sort(function(a,b){
         return a.sim < b.sim
     })
-    var returnArray = []
-    for (var i = 0; i < 5 && i < finalArray.length; i++){
-        returnArray.push(finalArray[i].url)
-    }
-    return returnArray
+    return finalArray.map(function(el){return el.url});
 }

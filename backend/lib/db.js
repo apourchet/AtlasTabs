@@ -62,7 +62,7 @@ BigRedDb.getTrending = function(params, cb) {
             },
             $where : "this.createdAt > " + cutTime
         }
-    	collection.find(query).limit(5).toArray(function(err, items) {
+    	collection.find(query).limit(1000).toArray(function(err, items) {
             cb(Utils.curateItems(items))
     	});
     });
@@ -126,7 +126,5 @@ BigRedDb.init = function(app) {
             res.send({error: 0})
         });
     });
-    
-    
 }
 
