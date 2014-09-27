@@ -37,15 +37,13 @@ function getTabSuggestions() {
         }
     	
     	for (elem in data){
-    		
+    		var la = elem.location.latitude, lo = elem.location.longitude
+    		var d1 = lat - la , d2 = lon - lo
+    		elem.distance = Math.sqrt(d1*d1 + d2*d2)
     	}
 
     	data.sort(function (a, b){
-    		var d1 = (a.location.latitude - lat) * (a.location.latitude - lat) +
-    			(a.location.longitude - lon) * (a.location.longitude - lon)
-    		var d2 = (b.location.latitude - lat) * (b.location.latitude - lat) +
-    			(b.location.longitude - lon) * (b.location.longitude - lon)
-    		return d1 - d2 
+    		a.distance - b.distance
     	})
     	
     	var myDataFin = []
@@ -57,15 +55,15 @@ function getTabSuggestions() {
     			if (elem.URLs[i] === url)
     				num ++;
     			else {
-    				myData.push({url: url, n = num})
+    				myData.push({url: url, n = Math.log(num), dist: Math.exp(elem.distance)})
     				url = elem.URLs[i]
     				num = 1
     			}
     		}
-    		myData.push({url: url, n = num})
+    		myData.push({url: url, n = Math.log(num), dist: Math.exp(elem.distance)})
     		myDataFin(myData)
     	}
-
+    	
     }
     else {
 
