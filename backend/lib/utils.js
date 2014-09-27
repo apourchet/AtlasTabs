@@ -1,5 +1,7 @@
 var Utils = exports = module.exports
 
+var TOP_SLASH_NUMBER = 3
+
 Utils.isUrlValid = function(url) {
     if (url.indexOf("chrome-extension") == 0) {
         return false
@@ -26,7 +28,7 @@ Utils.cutUrl = function(url) {
         if (c == '?') {
             break
         }
-        if (slashes >= 4) {
+        if (slashes >= TOP_SLASH_NUMBER) {
             break
         }
         newUrl += c
@@ -48,7 +50,17 @@ Utils.curateUrls = function(urls) {
     return Utils.removeDuplicates(Utils.cutUrls(Utils.filterUrls(urls)))
 }
 
+Utils.curateItems = function(items) {
+    var joinedUrls = []
+    for (var i = 0; i < items.length; i++) {
+        joinedUrls.push.apply(joinedUrls, items[i].data.URLs)
+    }
+    return Utils.removeDuplicates(Utils.cutUrls(Utils.filterUrls(joinedUrls)))
+}
+
 Utils.reformatData = function(data) {
     data.location = [Number(data.location[0]), Number(data.location[1])]
+    data.timeDifference = Number(data.timeDifference)
+    data.distance = Number(distance)
     return data
 }

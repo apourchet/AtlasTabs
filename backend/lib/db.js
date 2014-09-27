@@ -39,7 +39,6 @@ BigRedDb.getDatabase(function(db){
 BigRedDb.insertData = function(data, cb) {
     BigRedDb.getDatabase(function(db, endF) {
 	    var collection = db.collection(collectionName);
-	    console.log("Inserting in " + collectionName)
         var newData = Utils.reformatData(data)
 	    collection.insert({data: data, createdAt: new Date().getTime()}, function(err, item){
             if (err) console.log(err)
@@ -54,9 +53,7 @@ BigRedDb.getTrending = function(params, cb) {
     	
     	var collection = db.collection(collectionName);
     	collection.find().limit(5).toArray(function(err, items) {
-            var valids = Utils.curateUrls(items[0].data.URLs)
-            cb(valids)
-            // cb(["www.reddit.com", "www.facebook.com", "www.gmail.com", "test.google.com", "priceline.negociator.edu"])
+            cb(Utils.curateItems(items))
             endF();
     	});
     });
@@ -64,12 +61,26 @@ BigRedDb.getTrending = function(params, cb) {
 
 BigRedDb.getSuggestions = function(params, cb) {
     BigRedDb.getDatabase(function(db, endF) {
-    	
     	var collection = db.collection(collectionName);
-    	collection.find({"data.userId":params.userId}).sort({ createdAt: -1 }).limit(1).toArray(function(err, items) {
+        var lon = Number(params.location[0])
+        var lat = Number(params.location[1])
+        var query = {
+            "data.userId": params.userId,
+            "data.location": {
+                $near: {
+                    $geometry: {type: "Point", coordinates: [lon, lat]}, 
+                    $maxDistance: 1000, 
+                    $minDistance: 0
+                }
+            }
+        }
+    	collection.find(query).sort({ createdAt: -1 }).limit(10).toArray(function(err, items) {
             // Do stuff here
-            var urls = Utils.curateUrls(items[0].data.URLs);
-            cb(urls);
+            if (!items || items.length == 0) {
+                cb([])
+                return endF()
+            }
+            cb(Utils.curateItems(items));
             endF();
     	});
     });
