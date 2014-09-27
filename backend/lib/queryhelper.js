@@ -23,7 +23,8 @@ QueryHelper.getTimeSimilarity = function(mins){
 QueryHelper.getSuggestedURLs = function(array, lon, lat){
     console.log("Input length: " + array.length)
     for (var e in array){
-        array[e].data.distance = QueryHelper.getEuclideanDistance(lon, lat, array[e].data.location[0], array[e].data.location[1])
+        var el = array[e].data;
+        array[e].data.distance = QueryHelper.getEuclideanDistance(lon, lat, el.location[0], el.location[1])
         var thenDate = new Date(array[e].createdAt)
         array[e].data.timeDifference = QueryHelper.getTimeSimilarity(thenDate.getHours() * 60 + thenDate.getMinutes())
     };
