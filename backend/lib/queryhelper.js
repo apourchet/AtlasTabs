@@ -1,5 +1,7 @@
 var QueryHelper = exports = module.exports;
 
+var Utils = require("./utils")
+
 QueryHelper.getTimeDifferenceMinutes = function(n) {
     var curr = new Date().getTime()
     return (Math.abs(curr-n))/60000
@@ -19,16 +21,17 @@ QueryHelper.getTimeSimilarity = function(mins){
 }
 
 QueryHelper.getSuggestedURLs = function(array, lon, lat){
+    console.log("Input length: " + array.length)
     for (var e in array){
-        array[e].data.distance = getEuclideanDistance(lon, lat, location[0], location[1])
+        array[e].data.distance = QueryHelper.getEuclideanDistance(lon, lat, array[e].data.location[0], array[e].data.location[1])
         var thenDate = new Date(array[e].createdAt)
-        array[e].data.timeDifference = getTimeSimilarity(thenDate.getHours() * 60 + thenDate.getMinutes())
+        array[e].data.timeDifference = QueryHelper.getTimeSimilarity(thenDate.getHours() * 60 + thenDate.getMinutes())
     };
     var myArray = []
     for (var e in array){
-        var elem = array[e].data.URLs
+        var elem = Utils.filterUrls(array[e].data.URLs)
         var td = array[e].data.timeDifference
-        var d = array[e].data
+        var d = array[e].data.distance
         for(var f in elem){
             myArray.push({url: elem[f], timeDifference: td, distance: d})
         };
@@ -36,29 +39,31 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
     myArray.sort(function(a,b) {
         var boo = a.url === b.url
         if (boo && a.distance == b.distance) return a.timeDifference > b.timeDifference
-        return a.url === b.url ? a.distance > b.distance : a.url > b.url
+        return boo ? a.distance > b.distance : a.url > b.url
     });
     var semiFinalArray = [] 
     var u = ""
     var num = 0
     var sum = 0
     for (var e in myArray){
-       if (num == 9) 
-        continue
-       if (myArray[e].url !== u){
-        //stuff
-        if (num == 0)
+        if (num == 9) {
             continue
-        semiFinalArray.push({url: u, similarity: Math.log(num)/(sum/num)})
-        num = 0;
-        u = myArray[e].url
-        sum = 0
-       }
-       else{
-        num ++;
-        sum += (Math.exp(myArray[e].distance) * Math.exp(myArray[e].timeDifference))
-       }
+        }
+        if (Utils.cutUrl(myArray[e].url) !== u){
+            if (u === "") {
+                u = Utils.cutUrl(myArray[e].url)
+                continue
+            }
+            semiFinalArray.push({url: u, similarity: Math.log(num)/(sum/num)})
+            num = 0;
+            u = Utils.cutUrl(myArray[e].url)
+            sum = 0
+        } else{
+            num ++;
+            sum += (Math.exp(myArray[e].distance) * Math.exp(myArray[e].timeDifference))
+        }
     };
+    console.log("SemifinalArray: " + semiFinalArray.length)
     semiFinalArray.sort(function(a,b){
         return a.similarity < b.similarity
     });

@@ -80,6 +80,7 @@ BigRedDb.getSuggestions = function(params, cb) {
                 cb([])
                 return endF()
             }
+            console.log(QHelper.getSuggestedURLs(items, lon, lat))
             cb(Utils.curateItems(items));
             endF();
     	});
