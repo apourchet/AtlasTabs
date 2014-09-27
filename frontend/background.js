@@ -10,13 +10,17 @@ function send_data() {
 	var lon = 0;
 	if (navigator.geolocation) {
 	    navigator.geolocation.getCurrentPosition(function (position){
+	    	console.log("Got the geolocation!!!	")
 		   	lat = position.coords.latitude
 		   	lon = position.coords.longitude
-   		})
+		   	console.log({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1, timeDifference: -1})
+		   	chrome.runtime.sendMessage({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1, timeDifference: -1}, function(response) {
+			});
+   		}, function(err){ console.log("Error: " + err)})
 	}
-	console.log({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1, timeDifference: -1})
+	console.log("Sending Message!")
 	chrome.runtime.sendMessage({URLs: currentTabs, time: new Date().getTime(), location: {latitude: lat, longitude: lon}, distance: -1, timeDifference: -1}, function(response) {
-	});
+			});
 }
 
 function loop() {
