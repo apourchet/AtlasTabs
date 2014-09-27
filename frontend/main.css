@@ -2,7 +2,7 @@ body {
 	overflow: hidden;
 	margin: 0px;
 	padding: 0px;
-	width: 200px;
+	width: 400px;
 }
 
 body:first-child {
@@ -15,7 +15,7 @@ div {
 	padding: 1px 3px;
 	font-family: Helvetica;
 	font-size: 1.0em;
-	width: 200px;
+	width: 380px;
 	margin-top: 1px;
 }
 
