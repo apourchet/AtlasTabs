@@ -19,6 +19,5 @@ DomChanger.displaySuggestions = function(urls) {
 
 $(document).ready(function(){
     console.log("Ready!!");
-    DomChanger.displaySuggestions(["www.google.com", "google2.com", "google3.com"]);
-    setInterval(function() {DomChanger.displaySuggestions([Math.random(), Math.random() + "", Math.random() + "", Math.random() + ""]);}, 4000);
+    // setInterval(function() {DomChanger.displaySuggestions([Math.random(), Math.random() + "", Math.random() + "", Math.random() + ""]);}, 4000);
 });

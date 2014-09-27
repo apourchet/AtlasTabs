@@ -3,7 +3,7 @@
 	"description": "Suggest tabs based on personal characteristcs",
 	"version": "0.1",
 	"permissions": [
-		"tabs", "http://*/*", "https://*/*", "storage", "history"
+		"tabs", "http://*/*", "https://*/*", "storage", "history", "geolocation"
 	],
 	"background": { "scripts": ["background.js"] },
 	"browser_action": {
