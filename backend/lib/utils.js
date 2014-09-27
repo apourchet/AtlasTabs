@@ -48,3 +48,7 @@ Utils.curateUrls = function(urls) {
     return Utils.removeDuplicates(Utils.cutUrls(Utils.filterUrls(urls)))
 }
 
+Utils.reformatData = function(data) {
+    data.location = [Number(data.location[0]), Number(data.location[1])]
+    return data
+}

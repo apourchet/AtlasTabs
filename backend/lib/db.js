@@ -8,7 +8,7 @@ var Server = require("mongodb").Server;
 var mongoHost = "localhost";
 var mongoPort = "27017";
 var dbName = "bigred";
-var collectionName = "testColl";
+var collectionName = "browsingData";
 var serverOptions = {
         'auto_reconnect': true,
         'poolSize': 10
@@ -37,9 +37,11 @@ BigRedDb.getDatabase(function(db){
 
 BigRedDb.insertData = function(data, cb) {
     BigRedDb.getDatabase(function(db, endF) {
-	
 	    var collection = db.collection(collectionName);
+	    console.log("Inserting in " + collectionName)
+        var newData = Utils.reformatData(data)
 	    collection.insert({data: data, createdAt: new Date().getTime()}, function(err, item){
+            if (err) console.log(err)
             cb()
             endF()
         });
@@ -92,6 +94,13 @@ BigRedDb.init = function(app) {
         });
     });
     
+    app.get('/api/trending', function(req, res) {
+        console.log("/api/trending");
+        BigRedDb.getTrending(req.param("options"), function(urls){
+            res.send({error:0, urls:urls});
+        });
+    });
+
     app.post('/api/update', function(req, res) {
         console.log("/api/update");
         BigRedDb.insertData(req.body.data, function() {
@@ -99,11 +108,6 @@ BigRedDb.init = function(app) {
         });
     });
     
-    app.get('/api/trending', function(req, res) {
-        console.log("/api/trending");
-        BigRedDb.getTrending(req.body.options, function(urls){
-            res.send({error:0, urls:urls});
-        });
-    });
+    
 }
 
