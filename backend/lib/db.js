@@ -1,6 +1,7 @@
 var BigRedDb = exports = module.exports;
 
 var Utils = require("./utils")
+var QHelper = require("./queryhelper")
 
 // Sample mongodb usage
 var Db = require("mongodb").Db;
