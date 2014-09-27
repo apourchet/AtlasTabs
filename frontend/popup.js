@@ -7,6 +7,7 @@ var options = {
     },
     personal: "yes"
 }
+var loaded = false
 var userId = undefined
 
 chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
@@ -54,8 +55,18 @@ function setSuggestionOptions(newOptions) {
     }
 }
 
+chrome.storage.local.get(null, function(o) {
+    if (loaded && o != undefined) {
+        if (!o.lastSuggestions) {
+            o.lastSuggestions = []
+        }
+        DomChanger.displaySuggestions(o.lastSuggestions)
+    }
+});
+
 $(document).ready(function(){
     console.log("Ready")
+    loaded = true
     chrome.storage.local.get(null, function(o) {
         if (!o || !o.lastSuggestions) {
             o = {lastSuggestions: []}
@@ -71,6 +82,6 @@ $(document).ready(function(){
 	    		DomChanger.displaySuggestions(urls)
                 cacheSuggestions(urls)
 	    	});
-	    }, 1000)
+	    }, 5000)
     });
 })
