@@ -71,7 +71,7 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
     return finalArray.map(function(el){return el.url});
 }
 
-QueryHelper.getPublicURLRanked = function function(array, lon, lat){
+QueryHelper.getPublicURLRanked = function(array, lon, lat){
     for (var e in array){
         var el = array[e].data;
         array[e].data.distance = QueryHelper.getEuclideanDistance(lon, lat, el.location[0], el.location[1])
