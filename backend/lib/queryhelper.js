@@ -37,15 +37,17 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
             myArray.push({url: Utils.cutUrl(elem[f]), timeDifference: td, distance: d})
         };
     };
+    console.log(myArray)
     myArray.sort(function(a,b) {
-        return a.url > b.url
+        return a.url > b.url ? 1 : -1
     });
+    console.log(myArray)
     var semiFinalArray = [] 
     var u = myArray[0].url
     var sim = []
     for (var i = 0; i < myArray.length; i++){
         var s = Math.exp(myArray[0].distance) + Math.exp(myArray[0].timeDifference)
-        if (u !== myArray[i].url){
+        if (u === myArray[i].url){
             sim.push(s)
         }
         else {

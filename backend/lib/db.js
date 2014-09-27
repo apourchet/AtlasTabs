@@ -24,9 +24,7 @@ BigRedDb.getDatabase = function(cb) {
     db.open(function(err, db) {
         db.authenticate('api', 'apipass', function(err, result) {
             if(err) { return console.log(err); }
-            return cb(db, function() {
-                db.close();
-            });
+            return cb(db)
         });
     });
 }
@@ -37,24 +35,35 @@ BigRedDb.getDatabase(function(db){
 });
 
 BigRedDb.insertData = function(data, cb) {
-    BigRedDb.getDatabase(function(db, endF) {
+    BigRedDb.getDatabase(function(db) {
 	    var collection = db.collection(collectionName);
         var newData = Utils.reformatData(data)
 	    collection.insert({data: data, createdAt: new Date().getTime()}, function(err, item){
             if (err) console.log(err)
             cb()
-            endF()
         });
     });
 }
 
 BigRedDb.getTrending = function(params, cb) {
     BigRedDb.getDatabase(function(db, endF) {
-    	
     	var collection = db.collection(collectionName);
-    	collection.find().limit(5).toArray(function(err, items) {
+        var lon = Number(params.location[0])
+        var lat = Number(params.location[1])
+        var mins = Number(params.timeFrame)
+        var cutTime = new Date().getTime() - 60000*mins
+        var query = {
+            "data.location": {
+                $near: {
+                    $geometry: {type: "Point", coordinates: [lon, lat]}, 
+                    $maxDistance: 1000, 
+                    $minDistance: 0
+                }
+            },
+            $where : "this.createdAt > " + cutTime
+        }
+    	collection.find(query).limit(5).toArray(function(err, items) {
             cb(Utils.curateItems(items))
-            endF();
     	});
     });
 }
@@ -75,14 +84,11 @@ BigRedDb.getSuggestions = function(params, cb) {
             }
         }
     	collection.find(query).sort({ createdAt: -1 }).limit(10).toArray(function(err, items) {
-            // Do stuff here
             if (!items || items.length == 0) {
-                cb([])
-                return endF()
+                return cb([])
             }
             console.log(QHelper.getSuggestedURLs(items, lon, lat))
             cb(Utils.curateItems(items));
-            endF();
     	});
     });
 }

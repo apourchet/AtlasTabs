@@ -36,7 +36,7 @@ Utils.cutUrl = function(url) {
         }
         newUrl += c
     }
-    return newUrl
+    return newUrl.replace("http://", "").replace("https://", "")
 }
 
 Utils.cutUrls = function(urls) {
