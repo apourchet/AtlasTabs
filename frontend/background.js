@@ -73,4 +73,4 @@ function loop(cb) {
 	});
 }
 
-setInterval(send_data, 2000);
+setInterval(send_data, 5000);
