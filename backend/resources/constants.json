@@ -1,0 +1,10 @@
+{
+	"port": 8080,
+	"session": {
+		"cookie" : {
+			"key": "blankexpress-cookiekey",
+			"maxAge": 10000
+		},
+		"secret": "Session Secret Here"
+	}
+}
