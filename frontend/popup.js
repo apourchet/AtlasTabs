@@ -5,7 +5,7 @@ var options = {
         latitude: 0,
         longitude: 0
     },
-    personal: "yes"
+    personal: true
 }
 var loaded = false
 var userId = undefined
@@ -23,19 +23,31 @@ function getTabSuggestions(cb) {
     if (userId == undefined) {
         return cb([])
     }
-    if (options.personal === "yes") {
-        if (navigator.geolocation) {
-		    navigator.geolocation.getCurrentPosition(function (position){
-                var lat = position.coords.latitude
-                var lon = position.coords.longitude
+    if (navigator.geolocation) {
+        document.body.style["background"] = "blue"
+	    navigator.geolocation.getCurrentPosition(function (position){
+            var lat = position.coords.latitude
+            var lon = position.coords.longitude
+            if (options.personal) {
                 $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat]}}, function(data) {
+                    document.body.style["background"] = "white"
+                    cb(data.urls)
+                });    
+            } else {
+                $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: 20}}, function(data) {
+                    document.body.style["background"] = "white"
                     cb(data.urls)
                 });
-            });
-        }
-    } else {
-        cb([])
+            }
+        });
     }
+}
+
+function reloadSuggestions() {
+    getTabSuggestions(function(urls){
+		DomChanger.displaySuggestions(urls)
+        cacheSuggestions(urls)
+	});
 }
 
 function cacheSuggestions(urls) {
@@ -64,24 +76,39 @@ chrome.storage.local.get(null, function(o) {
     }
 });
 
+function setPrivacy(b) {
+    options.personal = b
+    reloadSuggestions();
+}
+
 $(document).ready(function(){
     console.log("Ready")
     loaded = true
+    reloadSuggestions()
     chrome.storage.local.get(null, function(o) {
         if (!o || !o.lastSuggestions) {
             o = {lastSuggestions: []}
         }
         DomChanger.displaySuggestions(o.lastSuggestions)
-        getTabSuggestions(function(urls){
-	    	DomChanger.displaySuggestions(urls)
-            cacheSuggestions(urls)
-	    });
+        reloadSuggestions();
 
         setInterval(function(){
-	    	getTabSuggestions(function(urls){
-	    		DomChanger.displaySuggestions(urls)
-                cacheSuggestions(urls)
-	    	});
-	    }, 5000)
+            if (options.personal) {
+	    	    reloadSuggestions();
+            }
+	    }, 5000);
+        setInterval(function(){
+            if (!options.personal) {
+	    	    reloadSuggestions();
+            }
+	    }, 500);
     });
-})
+    $("#trending-button").click(function(e) {
+        setPrivacy(false);
+    });
+    
+    $("#suggestion-button").click(function(e) {
+        setPrivacy(true);
+    });
+
+});

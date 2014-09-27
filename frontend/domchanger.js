@@ -19,6 +19,7 @@ DomChanger.displaySuggestions = function(urls) {
     }
 }
 
+
 $(document).ready(function(){
     console.log("Ready!!");
 });
