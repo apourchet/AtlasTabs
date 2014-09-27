@@ -15,7 +15,10 @@ BigRedDb.insertData = function(data, cb) {
 	    console.log("Connected to database " + dbName + "!");
 	
 	    var collection = db.collection(collectionName);
-	    collection.insert({data: data, createdAt: new Date().getTime()}, function(){
+	    collection.insert({data: data, createdAt: new Date().getTime()}, function(err, item){
+            if (err) {
+                console.log(err)
+            }
             db.close();
             cb()
         });
@@ -30,6 +33,7 @@ BigRedDb.getTrending = function(params, cb) {
     	var collection = db.collection(collectionName);
     	collection.find().toArray(function(err, items) {
     		db.close();
+            console.log("items: " + items)
             // cb(items);
             cb(["www.reddit.com", "www.facebook.com", "www.gmail.com", "test.google.com", "priceline.negociator.edu"])
     	});
