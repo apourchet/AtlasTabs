@@ -62,7 +62,7 @@ BigRedDb.getTrending = function(params, cb) {
             },
             $where : "this.createdAt > " + cutTime
         }
-    	collection.find(query).limit(1000).toArray(function(err, items) {
+    	collection.find(query).limit(5000).sort({ createdAt: -1 }).toArray(function(err, items) {
             var urls = QHelper.getPublicURLRanked(items, lon, lat);
             cb(urls)
     	});
