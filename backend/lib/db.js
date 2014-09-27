@@ -1,5 +1,7 @@
 var BigRedDb = exports = module.exports;
 
+var Utils = require("./utils")
+
 // Sample mongodb usage
 var Db = require("mongodb").Db;
 var Server = require("mongodb").Server;
@@ -9,21 +11,29 @@ var dbName = "bigred";
 var collectionName = "testColl";
 var serverOptions = {
         'auto_reconnect': true,
-        'poolSize': 5
+        'poolSize': 10
 };
 var db = new Db(dbName, new Server(mongoHost, mongoPort, serverOptions), {safe: false});
-
+var database = undefined
 
 BigRedDb.getDatabase = function(cb) {
+    if (database) {
+        return cb(database, function(){});
+    }
     db.open(function(err, db) {
         db.authenticate('api', 'apipass', function(err, result) {
             if(err) { return console.log(err); }
-            cb(db, function() {
+            return cb(db, function() {
                 db.close();
             });
         });
     });
 }
+
+BigRedDb.getDatabase(function(db){
+    console.log("Got the db!");
+    database = db
+});
 
 BigRedDb.insertData = function(data, cb) {
     BigRedDb.getDatabase(function(db, endF) {
@@ -41,8 +51,9 @@ BigRedDb.getTrending = function(params, cb) {
     	
     	var collection = db.collection(collectionName);
     	collection.find().limit(5).toArray(function(err, items) {
-            // cb(items);
-            cb(["www.reddit.com", "www.facebook.com", "www.gmail.com", "test.google.com", "priceline.negociator.edu"])
+            var valids = Utils.curateUrls(items[0].data.URLs)
+            cb(valids)
+            // cb(["www.reddit.com", "www.facebook.com", "www.gmail.com", "test.google.com", "priceline.negociator.edu"])
             endF();
     	});
     });
@@ -52,9 +63,10 @@ BigRedDb.getSuggestions = function(params, cb) {
     BigRedDb.getDatabase(function(db, endF) {
     	
     	var collection = db.collection(collectionName);
-    	collection.find({userId: params.userId}).limit(5).toArray(function(err, items) {
-            // cb(items);
-            cb(["www.reddit.com", "www.facebook.com", "www.gmail.com", "test.google.com", "priceline.negociator.edu"])
+    	collection.find({"data.userId":params.userId}).sort({ createdAt: -1 }).limit(1).toArray(function(err, items) {
+            // Do stuff here
+            var urls = Utils.curateUrls(items[0].data.URLs);
+            cb(urls);
             endF();
     	});
     });
