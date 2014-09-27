@@ -83,12 +83,12 @@ BigRedDb.getSuggestions = function(params, cb) {
                 }
             }
         }
-    	collection.find(query).sort({ createdAt: -1 }).limit(10).toArray(function(err, items) {
+    	collection.find(query).sort({ createdAt: -1 }).toArray(function(err, items) {
             if (!items || items.length == 0) {
                 return cb([])
             }
-            console.log(QHelper.getSuggestedURLs(items, lon, lat))
-            cb(Utils.curateItems(items));
+            var urls = QHelper.getSuggestedURLs(items, lon, lat)
+            cb(urls);
     	});
     });
 }

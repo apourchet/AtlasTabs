@@ -21,7 +21,6 @@ QueryHelper.getTimeSimilarity = function(mins){
 }
 
 QueryHelper.getSuggestedURLs = function(array, lon, lat){
-    console.log("Input length: " + array.length)
     for (var e in array){
         var el = array[e].data;
         array[e].data.distance = QueryHelper.getEuclideanDistance(lon, lat, el.location[0], el.location[1])
@@ -37,11 +36,9 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
             myArray.push({url: Utils.cutUrl(elem[f]), timeDifference: td, distance: d})
         };
     };
-    console.log(myArray)
     myArray.sort(function(a,b) {
         return a.url > b.url ? 1 : -1
     });
-    console.log(myArray)
     var semiFinalArray = [] 
     var u = myArray[0].url
     var sim = []
@@ -56,7 +53,6 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
             sim = [s]
         }
     };
-    console.log("SemifinalArray: " + semiFinalArray.length)
     finalArray = []
     for (var elem in semiFinalArray){
         var sum = 0
