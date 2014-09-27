@@ -23,6 +23,7 @@ document.addEventListener('new_data', function () {
 	});
 });
 
+
 /* Returns a list of urls that you should open*/
 function getTabSuggestions() {
     if (options.personal === "yes"){
@@ -55,12 +56,12 @@ function getTabSuggestions() {
     			if (elem.URLs[i] === url)
     				num ++;
     			else {
-    				myData.push({url: url, n = Math.log(num), dist: Math.exp(elem.distance)})
+    				myData.push({url: url, n: Math.log(num), dist: Math.exp(elem.distance)})
     				url = elem.URLs[i]
     				num = 1
     			}
     		}
-    		myData.push({url: url, n = Math.log(num), dist: Math.exp(elem.distance)})
+    		myData.push({url: url, n: Math.log(num), dist: Math.exp(elem.distance)})
     		myDataFin(myData)
     	}
     	

@@ -9,10 +9,7 @@
 	"browser_action": {
 		"name": "See the details of the current song playing on Pandora",
 		"default_title": "Check what's playing",
-		"default_icon": "",
 		"default_popup": "popup.html"
 	},
-	"icons": { 
-	},
-	"manifest_version": 1
+	"manifest_version": 2
 }
