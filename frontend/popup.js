@@ -8,7 +8,6 @@ var options = {
     personal: "yes"
 }
 var userId = undefined
-var lastSuggestions = []
 
 chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
     if (!userId) {
@@ -24,17 +23,29 @@ function getTabSuggestions(cb) {
         return cb([])
     }
     if (options.personal === "yes") {
-        console.log("Getting suggestions!")
-        $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId}}, function(data) {
-            console.log(data)
-            lastSuggestions = data
-            cb(data.urls)
-        });
+        if (navigator.geolocation) {
+		    navigator.geolocation.getCurrentPosition(function (position){
+                var lat = position.coords.latitude
+                var lon = position.coords.longitude
+                $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat]}}, function(data) {
+                    cb(data.urls)
+                });
+            });
+        }
     } else {
         cb([])
     }
 }
 
+function cacheSuggestions(urls) {
+    console.log("Caching the last suggestions: ", urls)
+    chrome.storage.local.set({lastSuggestions: urls}, function(){
+        chrome.storage.local.get(null, function(o) {
+            // DomChanger.displaySuggestions(o.lastSuggestions)
+            console.log("The last suggestions were: ", o.lastSuggestions)
+        });
+    });
+}
 
 /* Changes the suggestion options. */
 function setSuggestionOptions(newOptions) {
@@ -45,17 +56,21 @@ function setSuggestionOptions(newOptions) {
 
 $(document).ready(function(){
     console.log("Ready")
-	getTabSuggestions(function(urls){
-        console.log(urls)
-		DomChanger.displaySuggestions(urls)
-		chrome.storage.sync.set({lastSuggestions: urls}, function(){})
-	});
+    chrome.storage.local.get(null, function(o) {
+        if (!o || !o.lastSuggestions) {
+            o = {lastSuggestions: []}
+        }
+        DomChanger.displaySuggestions(o.lastSuggestions)
+        getTabSuggestions(function(urls){
+	    	DomChanger.displaySuggestions(urls)
+            cacheSuggestions(urls)
+	    });
 
-    setInterval(function(){
-		getTabSuggestions(function(urls){
-            console.log(urls)
-			DomChanger.displaySuggestions(urls)
-			chrome.storage.sync.set({lastSuggestions: urls}, function(){})
-		})
-	}, 1000)
+        setInterval(function(){
+	    	getTabSuggestions(function(urls){
+	    		DomChanger.displaySuggestions(urls)
+                cacheSuggestions(urls)
+	    	});
+	    }, 1000)
+    });
 })

@@ -1,6 +1,9 @@
 var DomChanger = {}
 
 DomChanger.displaySuggestions = function(urls) {
+    if (!urls || urls.length == 0) {
+        return
+    }
     console.log("Displaying new suggestions!");
     var container = document.getElementById("list-container");
     var items = container.childNodes;
@@ -10,7 +13,6 @@ DomChanger.displaySuggestions = function(urls) {
     }
     for (var i in urls) {
         var url = urls[i];
-        console.log("Displaying '" + url + "'");
         var newDiv = document.createElement("div");
         newDiv.innerHTML = url;
         container.appendChild(newDiv);
@@ -19,5 +21,4 @@ DomChanger.displaySuggestions = function(urls) {
 
 $(document).ready(function(){
     console.log("Ready!!");
-    // setInterval(function() {DomChanger.displaySuggestions([Math.random(), Math.random() + "", Math.random() + "", Math.random() + ""]);}, 4000);
 });
