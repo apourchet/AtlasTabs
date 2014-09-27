@@ -9,7 +9,10 @@ Utils.isUrlValid = function(url) {
         return false
     } else if (url.indexOf("chrome://newtab") == 0) {
         return false
+    } else if (url.indexOf("chrome-") == 0) {
+        return false
     }
+
     return true
 }
 
@@ -61,6 +64,6 @@ Utils.curateItems = function(items) {
 Utils.reformatData = function(data) {
     data.location = [Number(data.location[0]), Number(data.location[1])]
     data.timeDifference = Number(data.timeDifference)
-    data.distance = Number(distance)
+    data.distance = Number(data.distance)
     return data
 }
