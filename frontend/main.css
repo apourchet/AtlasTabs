@@ -1,22 +1,21 @@
 body {
-  overflow: hidden;
-  margin: 0px;
-  padding: 0px;
-  width: 230px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	width: 200px;
 }
 
-div:first-child {
-  margin-top: 4px;
+body:first-child {
+	margin-top: 4px;
 }
 
 div {
-  margin: auto;
-  cursor: pointer;
-  text-align: center;
-  padding: 1px 3px;
-  font-family: Helvetica;
-  font-size: 0.8em;
-  width: 200px;
-  margin-top: 1px;
+	margin: auto;
+	text-align: center;
+	padding: 1px 3px;
+	font-family: Helvetica;
+	font-size: 1.0em;
+	width: 200px;
+	margin-top: 1px;
 }
 
