@@ -78,7 +78,7 @@ function setPrivacy(b) {
     reloadSuggestions();
 }
 
-function openall() {
+function openAll() {
     var links = document.getElementsByTagName("a");
     for (var i = 0; i < links.length; i++) {
         var ln = links[i];
@@ -118,7 +118,7 @@ $(document).ready(function(){
     });
 
     $("#openall-button").click(function(e) {
-        openall();
+        openAll();
     });
 
 });
