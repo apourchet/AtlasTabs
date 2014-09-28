@@ -44,7 +44,7 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
     var u = myArray[0].url
     var sim = []
     for (var i = 0; i < myArray.length; i++){
-        var s = Math.exp(myArray[0].distance) + Math.exp(myArray[0].timeDifference)
+        var s = Math.exp(myArray[0].distance) + Math.exp(myArray[i].timeDifference * myArray[i].timeDifference / 518400)
         if (u === myArray[i].url){
             sim.push(s)
         }
@@ -97,7 +97,7 @@ QueryHelper.getPublicURLRanked = function(array, lon, lat){
     var temp = []
     var endR = {}
     for (var i = 0; i < myArray.length; i++){
-        var s = Math.exp(myArray[i].distance) + Math.exp(myArray[i].timeDifference)
+        var s = Math.exp(myArray[i].distance) + Math.exp(myArray[i].timeDifference * myArray[i].timeDifference / 518400)
         if (u === myArray[i].url){
             sim.push(s)
             temp.push(myArray[i].id)
