@@ -2,9 +2,10 @@ var DomChanger = {}
 
 DomChanger.displaySuggestions = function(urls, k) {
     if (!urls || urls.length == 0) {
-        document.getElementById("list-container").style.display="none";
+        document.getElementById("list-container").style.display="block";
         document.getElementById("setting-values").style.display="none";
         document.getElementById("no-display").style.display="block";
+        DomChanger.removeSuggestions()
         return
     }
     document.getElementById("list-container").style.display="block";
@@ -12,13 +13,8 @@ DomChanger.displaySuggestions = function(urls, k) {
     document.getElementById("setting-values").style.display="none";
 
     var n = k || 5
-    console.log("Displaying new suggestions!");
+    DomChanger.removeSuggestions();
     var container = document.getElementById("list-container");
-    var items = container.childNodes;
-    var l = items.length;
-    for (var i = 0; i < l; i++) {
-        container.removeChild(items[0]);
-    }
     for (var i in urls) {
         if (i >= n) {
             break
@@ -28,6 +24,15 @@ DomChanger.displaySuggestions = function(urls, k) {
         newDiv.innerHTML = '<a href=http://' + url + '>' + url + '</a>';
         newDiv.setAttribute('class', 'list-group-item');
         container.appendChild(newDiv);
+    }
+}
+
+DomChanger.removeSuggestions = function() {
+    var container = document.getElementById("list-container");
+    var items = container.childNodes;
+    var l = items.length;
+    for (var i = 0; i < l; i++) {
+        container.removeChild(items[0]);
     }
 }
 
