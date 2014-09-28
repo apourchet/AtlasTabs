@@ -47,7 +47,35 @@ DomChanger.displaySettings = function (opt) {
     newDiv.setAttribute('data-slider-value', opt.numTabs);
     settings.appendChild(newDiv);
 
+    var newDiv = document.createElement("input");
+    newDiv.setAttribute('id', 'ex2');
+    newDiv.setAttribute('data-slider-id', 'ex2Slider');
+    newDiv.setAttribute('data-slider-min', '1');
+    newDiv.setAttribute('data-slider-max', '10');
+    newDiv.setAttribute('data-slider-step', '1');
+    newDiv.setAttribute('data-slider-value', opt.distPriority);
+    settings.appendChild(newDiv);
+
+    var newDiv = document.createElement("input");
+    newDiv.setAttribute('id', 'ex3');
+    newDiv.setAttribute('data-slider-id', 'ex3Slider');
+    newDiv.setAttribute('data-slider-min', '1');
+    newDiv.setAttribute('data-slider-max', '10');
+    newDiv.setAttribute('data-slider-step', '1');
+    newDiv.setAttribute('data-slider-value', opt.timePriority);
+    settings.appendChild(newDiv);
+
     $('#ex1').slider({
+        formatter: function(value) {
+            return 'Current value: ' + value;
+        }
+    });
+    $('#ex2').slider({
+        formatter: function(value) {
+            return 'Current value: ' + value;
+        }
+    });
+    $('#ex3').slider({
         formatter: function(value) {
             return 'Current value: ' + value;
         }
