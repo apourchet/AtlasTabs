@@ -5,11 +5,14 @@ var options = {
         latitude: 0,
         longitude: 0
     },
-    personal: true,
+    personal: 1,
     numTabs: 5,
     distPriority: 7,
     timePriority: 5
 }
+
+var lastLoaded = [[],[]]
+var inSettings = false
 var loaded = false
 var userId = undefined
 
@@ -22,7 +25,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
 });
 
 /* Returns a list of urls that you should open*/
-function getTabSuggestions(cb) {
+function getTabSuggestions(a, cb) {
     if (userId == undefined) {
         return cb([])
     }
@@ -30,7 +33,7 @@ function getTabSuggestions(cb) {
 	    navigator.geolocation.getCurrentPosition(function (position){
             var lat = position.coords.latitude
             var lon = position.coords.longitude
-            if (options.personal) {
+            if (a) {
                 $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat]}}, function(data) {
                     cb(data.urls)
                 });    
@@ -43,21 +46,19 @@ function getTabSuggestions(cb) {
     }
 }
 
-function reloadSuggestions() {
-    getTabSuggestions(function(urls){
-		DomChanger.displaySuggestions(urls, options.numTabs)
-        cacheSuggestions(urls)
+function reloadSuggestions(a) {
+    a = (a == undefined) ? options.personal : a
+    console.log("Reloading suggestions: " + a)
+    getTabSuggestions(a, function(urls){
+        cacheSuggestions(urls, a)
 	});
 }
 
-function cacheSuggestions(urls) {
-    console.log("Caching the last suggestions: ", urls)
-    chrome.storage.local.set({lastSuggestions: urls}, function(){
-        chrome.storage.local.get(null, function(o) {
-            // DomChanger.displaySuggestions(o.lastSuggestions)
-            console.log("The last suggestions were: ", o.lastSuggestions)
-        });
-    });
+function cacheSuggestions(urls, a) {
+    // console.log("Caching the last suggestions: ", urls)
+    var obj = {}
+    obj["lastLoaded" + a] = urls
+    chrome.storage.local.set(obj, function(){});
 }
 
 /* Changes the suggestion options. */
@@ -67,18 +68,28 @@ function setSuggestionOptions(newOptions) {
     }
 }
 
+function reloadDisplay() {
+    if (!inSettings) {
+        console.log("Displaying " + options.personal)
+        DomChanger.displaySuggestions(lastLoaded[options.personal]);
+    } else {
+        DomChanger.displaySettings(options)
+    }
+}
+
 chrome.storage.local.get(null, function(o) {
-    if (loaded && o != undefined) {
-        if (!o.lastSuggestions) {
-            o.lastSuggestions = []
-        }
-        DomChanger.displaySuggestions(o.lastSuggestions)
+    if (o["lastLoaded0"]) {
+        lastLoaded[0] = o["lastLoaded0"]
+    }
+    if (o["lastLoaded1"]) {
+        lastLoaded[1] = o["lastLoaded1"]
     }
 });
 
 function setPrivacy(b) {
-    options.personal = b
-    reloadSuggestions();
+    options.personal = b ? 1 : 0
+    inSettings = false
+    reloadDisplay()
 }
 
 function openAll() {
@@ -90,31 +101,35 @@ function openAll() {
     }
 }
 
+function setIntervals() {
+    setTimeout(function(){
+        reloadDisplay()
+    }, 50);
+    setInterval(function(){
+        reloadDisplay()
+    }, 400);
+    setInterval(function(){
+	    reloadSuggestions(0);
+	}, 2000);
+    setInterval(function(){
+		reloadSuggestions(1);
+	}, 2000);
+}
+
 $(document).ready(function(){
     console.log("Ready")
-    loaded = true
-    reloadSuggestions()
-    chrome.storage.local.get(null, function(o) {
-        if (!o || !o.lastSuggestions) {
-            o = {lastSuggestions: []}
-        }
-        DomChanger.displaySuggestions(o.lastSuggestions)
-        reloadSuggestions();
+    
+    setPrivacy(options.personal)
+    reloadDisplay()
+    
+    setIntervals()
 
-        setInterval(function(){
-            if (options.personal) {
-	    	    reloadSuggestions();
-            }
-	    }, 50000);
-        setInterval(function(){
-            if (!options.personal) {
-	    	    reloadSuggestions();
-            }
-	    }, 50000);
-    });
+    
     $("#settings").click(function(e){
         DomChanger.displaySettings(options);
+        inSettings = true
     });
+
     $("#trending-button").click(function(e) {
         setPrivacy(false);
     });
@@ -126,6 +141,7 @@ $(document).ready(function(){
     $("#openall-button").click(function(e) {
         openAll();
     });
+    reloadDisplay()
 
 });
 
