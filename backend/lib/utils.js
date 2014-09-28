@@ -1,7 +1,7 @@
 var Utils = exports = module.exports
 
 var TOP_SLASH_NUMBER = 3
-var BLACK_LIST = ["chrome", "file", "localhost"]
+var BLACK_LIST = ["chrome", "file", "localhost", "127.0.0.1"]
 
 Utils.isUrlValid = function(url) {
     for (var i in BLACK_LIST) {
