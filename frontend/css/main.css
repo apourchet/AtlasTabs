@@ -25,6 +25,16 @@ div {
             animation: fadein 0.3s;
 }
 
+#settings {
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+#settings:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
