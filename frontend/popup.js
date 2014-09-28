@@ -34,11 +34,11 @@ function getTabSuggestions(a, cb) {
             var lat = position.coords.latitude
             var lon = position.coords.longitude
             if (a) {
-                $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat]}}, function(data) {
+                $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat], radius: distPriority}}, function(data) {
                     cb(data.urls)
                 });    
             } else {
-                $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: 20}}, function(data) {
+                $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: timePriority, radius: distPriority}}, function(data) {
                     cb(data.urls)
                 });
             }
@@ -71,7 +71,7 @@ function setSuggestionOptions(newOptions) {
 function reloadDisplay() {
     if (!inSettings) {
         console.log("Displaying " + options.personal)
-        DomChanger.displaySuggestions(lastLoaded[options.personal]);
+        DomChanger.displaySuggestions(lastLoaded[options.personal], options.numTabs);
     } else {
         DomChanger.displaySettings(options)
     }
