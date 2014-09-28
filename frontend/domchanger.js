@@ -46,14 +46,15 @@ DomChanger.displaySettings = function (opt) {
     newDiv.setAttribute('data-slider-step', '1');
     newDiv.setAttribute('data-slider-value', opt.numTabs);
     settings.appendChild(newDiv);
-}
 
-
-$(document).ready(function(){
-    console.log("Ready!!");
     $('#ex1').slider({
         formatter: function(value) {
             return 'Current value: ' + value;
         }
     });
+}
+
+
+$(document).ready(function(){
+    console.log("Ready!!");
 });
