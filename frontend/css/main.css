@@ -37,7 +37,14 @@ div {
 
 #ex1Slider .slider-selection {
 	background: #BABABA;
-    margin-top: 100px;
+}
+
+#ex2Slider .slider-selection {
+    background: #BABABA;
+}
+
+#ex3Slider .slider-selection {
+    background: #BABABA;
 }
 
 @keyframes fadein {

@@ -26,6 +26,12 @@ DomChanger.displaySuggestions = function(urls, k) {
     }
 }
 
+function savePreferences() {
+    var mySlider = $("#ex1").slider();
+    var value = mySlider.slider('getValue');
+    console.log(value);
+}
+
 DomChanger.displaySettings = function (opt) {
     document.getElementById("list-container").style.display="none";
     document.getElementById("setting-values").style.display="block";
@@ -38,6 +44,10 @@ DomChanger.displaySettings = function (opt) {
     }
 
     var settings = document.getElementById("setting-values");
+    var newDiv = document.createElement("h4");
+    newDiv.innerHTML = "Number of Suggestions"
+    settings.appendChild(newDiv);
+
     var newDiv = document.createElement("input");
     newDiv.setAttribute('id', 'ex1');
     newDiv.setAttribute('data-slider-id', 'ex1Slider');
@@ -45,6 +55,10 @@ DomChanger.displaySettings = function (opt) {
     newDiv.setAttribute('data-slider-max', '7');
     newDiv.setAttribute('data-slider-step', '1');
     newDiv.setAttribute('data-slider-value', opt.numTabs);
+    settings.appendChild(newDiv);
+
+    var newDiv = document.createElement("h4");
+    newDiv.innerHTML = "Distance Priority"
     settings.appendChild(newDiv);
 
     var newDiv = document.createElement("input");
@@ -56,6 +70,10 @@ DomChanger.displaySettings = function (opt) {
     newDiv.setAttribute('data-slider-value', opt.distPriority);
     settings.appendChild(newDiv);
 
+    var newDiv = document.createElement("h4");
+    newDiv.innerHTML = "Time Priority"
+    settings.appendChild(newDiv);
+
     var newDiv = document.createElement("input");
     newDiv.setAttribute('id', 'ex3');
     newDiv.setAttribute('data-slider-id', 'ex3Slider');
@@ -63,6 +81,18 @@ DomChanger.displaySettings = function (opt) {
     newDiv.setAttribute('data-slider-max', '10');
     newDiv.setAttribute('data-slider-step', '1');
     newDiv.setAttribute('data-slider-value', opt.timePriority);
+    settings.appendChild(newDiv);
+
+    var newDiv = document.createElement("p");
+    settings.appendChild(newDiv);
+
+
+    var newDiv = document.createElement("button");
+    newDiv.setAttribute('class', 'btn btn-danger');
+    newDiv.setAttribute('id', 'saveButton');
+    newDiv.setAttribute('style', 'margin-top: 25px')
+    newDiv.click = savePreferences();
+    newDiv.innerHTML = "Save"
     settings.appendChild(newDiv);
 
     $('#ex1').slider({
