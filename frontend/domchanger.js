@@ -35,6 +35,15 @@ DomChanger.openTabs = function(urls) {
     }
 }
 
+DomChanger.openTab = function(url) {
+    var createProperties = {
+        active: false,
+        selected: false,
+        url: "http://" + url
+    };
+    chrome.tabs.create(createProperties, function(tab) {});
+}
+
 $(document).ready(function(){
     console.log("Ready!!");
 });
