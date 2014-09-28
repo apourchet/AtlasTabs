@@ -14,7 +14,7 @@ DomChanger.displaySuggestions = function(urls) {
     for (var i in urls) {
         var url = urls[i];
         var newDiv = document.createElement("li");
-        newDiv.innerHTML = '<a href="' + url + '">' + url + '</a>';
+        newDiv.innerHTML = '<a href=http://' + url + '>' + url + '</a>';
         newDiv.setAttribute('class', 'list-group-item');
         container.appendChild(newDiv);
     }
@@ -35,14 +35,6 @@ DomChanger.openTabs = function(urls) {
     }
 }
 
-DomChanger.openTab = function(url) {
-    var createProperties = {
-        active: false,
-        selected: false,
-        url: "http://" + url
-    };
-    chrome.tabs.create(createProperties, function(tab) {});
-}
 
 $(document).ready(function(){
     console.log("Ready!!");
