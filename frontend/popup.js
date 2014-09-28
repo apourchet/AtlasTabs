@@ -39,7 +39,7 @@ function getTabSuggestions(a, cb) {
                 });    
             } else {
                 $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: options.timePriority, radius: options.distPriority}}, function(data) {
-                    DomChanger.displaySuggestions(urls, options.numTabs);
+                    DomChanger.displaySuggestions(data.urls, options.numTabs);
                     cacheSuggestions(data.urls, a)
                     reloadDisplay()
                     cb(data.urls)
