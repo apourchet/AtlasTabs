@@ -4,24 +4,13 @@
     <title>Atlas Tabs: A Social, location/time-based tab suggestion extension</title>
     <link rel="stylesheet" type="text/css" href="./css/main.css">
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-    <script src="jquery.js"></script>
-    <script src="domchanger.js"></script>
-    <script src="popup.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-slider.css">
+    <script type='text/javascript' src="jquery.js"></script>
+    <script type='text/javascript' src="domchanger.js"></script>
+    <script type='text/javascript' src="popup.js"></script>
+    <script type='text/javascript' src="bootstrap.js"></script>
+    <script type='text/javascript' src="bootstrap-slider.js"></script>
     <base target="_blank" />
-    <script>
-      $('#ex1').slider({
-          formatter: function(value) {
-              return 'Current value: ' + value;
-          }
-      });
-
-      // Without JQuery
-      var slider = new Slider('#ex1', {
-          formatter: function(value) {
-              return 'Current value: ' + value;
-          }
-      });
-    </script>
   </head>
   <body>
 

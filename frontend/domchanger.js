@@ -4,6 +4,8 @@ DomChanger.displaySuggestions = function(urls, k) {
     if (!urls || urls.length == 0) {
         return
     }
+    document.getElementById("list-container").style.display="block";
+    document.getElementById("setting-values").style.display="none";
     var n = k || 5
     console.log("Displaying new suggestions!");
     var container = document.getElementById("list-container");
@@ -25,11 +27,14 @@ DomChanger.displaySuggestions = function(urls, k) {
 }
 
 DomChanger.displaySettings = function (opt) {
-    var container = document.getElementById("list-container");
-    var items = container.childNodes;
+    document.getElementById("list-container").style.display="none";
+    document.getElementById("setting-values").style.display="block";
+
+    var settings = document.getElementById("setting-values");
+    var items = settings.childNodes;
     var l = items.length;
     for (var i = 0; i < l; i++) {
-        container.removeChild(items[0]);
+        settings.removeChild(items[0]);
     }
 
     var settings = document.getElementById("setting-values");
@@ -46,5 +51,9 @@ DomChanger.displaySettings = function (opt) {
 
 $(document).ready(function(){
     console.log("Ready!!");
+    $('#ex1').slider({
+        formatter: function(value) {
+            return 'Current value: ' + value;
+        }
+    });
 });
-
