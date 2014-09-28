@@ -78,6 +78,15 @@ function setPrivacy(b) {
     reloadSuggestions();
 }
 
+function openall() {
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) {
+        var ln = links[i];
+        var location = ln.href;
+        chrome.tabs.create({active: true, url: location});
+    }
+}
+
 $(document).ready(function(){
     console.log("Ready")
     loaded = true
@@ -108,4 +117,9 @@ $(document).ready(function(){
         setPrivacy(true);
     });
 
+    $("#openall-button").click(function(e) {
+        openall();
+    });
+
 });
+
