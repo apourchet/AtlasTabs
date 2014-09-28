@@ -72,6 +72,11 @@ function reloadDisplay() {
     if (!inSettings) {
         console.log("Displaying " + options.personal)
         DomChanger.displaySuggestions(lastLoaded[options.personal], options.numTabs);
+        if (options.personal) {
+            $("#suggestion-button").focus()
+        } else {
+            $("#trending-button").focus()
+        }
     } else {
         DomChanger.displaySettings(options)
     }

@@ -5,10 +5,12 @@ DomChanger.displaySuggestions = function(urls, k) {
         document.getElementById("list-container").style.display="none";
         document.getElementById("setting-values").style.display="none";
         document.getElementById("no-display").style.display="block";
+        return
     }
     document.getElementById("list-container").style.display="block";
     document.getElementById("no-display").style.display="none";
     document.getElementById("setting-values").style.display="none";
+
     var n = k || 5
     console.log("Displaying new suggestions!");
     var container = document.getElementById("list-container");
