@@ -55,7 +55,6 @@ function reloadSuggestions(a) {
 }
 
 function cacheSuggestions(urls, a) {
-    // console.log("Caching the last suggestions: ", urls)
     var obj = {}
     obj["lastLoaded" + a] = urls
     chrome.storage.local.set(obj, function(){});
@@ -66,6 +65,7 @@ function setSuggestionOptions(newOptions) {
     for (var attr in newOptions) {
         options[attr] = newOptions[attr]
     }
+    cacheSettings()
 }
 
 function reloadDisplay() {
@@ -84,12 +84,21 @@ chrome.storage.local.get(null, function(o) {
     if (o["lastLoaded1"]) {
         lastLoaded[1] = o["lastLoaded1"]
     }
+    if (o["options"]) {
+        options = o["options"]
+    }
+    reloadDisplay()
 });
+
+function cacheSettings() {
+    chrome.storage.local.set({options: options}, function(){});
+}
 
 function setPrivacy(b) {
     options.personal = b ? 1 : 0
     inSettings = false
     reloadDisplay()
+    cacheSettings()
 }
 
 function openAll() {
