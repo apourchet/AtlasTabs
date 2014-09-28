@@ -1,9 +1,10 @@
 var DomChanger = {}
 
-DomChanger.displaySuggestions = function(urls) {
+DomChanger.displaySuggestions = function(urls, k) {
     if (!urls || urls.length == 0) {
         return
     }
+    var n = k || 5
     console.log("Displaying new suggestions!");
     var container = document.getElementById("list-container");
     var items = container.childNodes;
@@ -12,6 +13,9 @@ DomChanger.displaySuggestions = function(urls) {
         container.removeChild(items[0]);
     }
     for (var i in urls) {
+        if (i >= n) {
+            break
+        }
         var url = urls[i];
         var newDiv = document.createElement("li");
         newDiv.innerHTML = '<a href=http://' + url + '>' + url + '</a>';
