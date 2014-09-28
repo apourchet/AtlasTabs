@@ -45,7 +45,7 @@ function getTabSuggestions(cb) {
 
 function reloadSuggestions() {
     getTabSuggestions(function(urls){
-		DomChanger.displaySuggestions(urls)
+		DomChanger.displaySuggestions(urls, options.numTabs)
         cacheSuggestions(urls)
 	});
 }
@@ -105,15 +105,15 @@ $(document).ready(function(){
             if (options.personal) {
 	    	    reloadSuggestions();
             }
-	    }, 5000);
+	    }, 50000);
         setInterval(function(){
             if (!options.personal) {
 	    	    reloadSuggestions();
             }
-	    }, 500);
+	    }, 50000);
     });
     $("#settings").click(function(e){
-        DomChanger.displaySettings(options)
+        DomChanger.displaySettings(options);
     });
     $("#trending-button").click(function(e) {
         setPrivacy(false);

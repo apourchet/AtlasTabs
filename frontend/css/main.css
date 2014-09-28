@@ -35,6 +35,10 @@ div {
     filter: alpha(opacity=100); /* For IE8 and earlier */
 }
 
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
