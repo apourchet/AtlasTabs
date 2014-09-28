@@ -39,6 +39,10 @@ DomChanger.openTabs = function(urls) {
     }
 }
 
+DomChanger.displaySettings = function (opt) {
+    
+}
+
 
 $(document).ready(function(){
     console.log("Ready!!");

@@ -5,7 +5,10 @@ var options = {
         latitude: 0,
         longitude: 0
     },
-    personal: true
+    personal: true,
+    numTabs: 5,
+    distPriority: 7,
+    timePriority: 5
 }
 var loaded = false
 var userId = undefined
@@ -108,6 +111,9 @@ $(document).ready(function(){
 	    	    reloadSuggestions();
             }
 	    }, 500);
+    });
+    $("#settings").click(function(e){
+        DomChanger.displaySettings(options)
     });
     $("#trending-button").click(function(e) {
         setPrivacy(false);
