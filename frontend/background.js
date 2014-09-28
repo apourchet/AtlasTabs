@@ -73,4 +73,5 @@ function loop(cb) {
 	});
 }
 
+send_data()
 setInterval(send_data, 15000);
