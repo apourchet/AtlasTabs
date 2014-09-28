@@ -106,9 +106,6 @@ function setIntervals() {
         reloadDisplay()
     }, 50);
     setInterval(function(){
-        reloadDisplay()
-    }, 400);
-    setInterval(function(){
 	    reloadSuggestions(0);
 	}, 2000);
     setInterval(function(){
@@ -119,11 +116,7 @@ function setIntervals() {
 $(document).ready(function(){
     console.log("Ready")
     
-    setPrivacy(options.personal)
-    reloadDisplay()
-    
     setIntervals()
-
     
     $("#settings").click(function(e){
         DomChanger.displaySettings(options);
