@@ -26,11 +26,6 @@ DomChanger.displaySuggestions = function(urls, k) {
     }
 }
 
-function savePreferences() {
-    var mySlider = $("#ex1").slider();
-    var value = mySlider.slider('getValue');
-    console.log(value);
-}
 
 DomChanger.displaySettings = function (opt) {
     document.getElementById("list-container").style.display="none";
@@ -90,8 +85,8 @@ DomChanger.displaySettings = function (opt) {
     var newDiv = document.createElement("button");
     newDiv.setAttribute('class', 'btn btn-danger');
     newDiv.setAttribute('id', 'saveButton');
-    newDiv.setAttribute('style', 'margin-top: 25px')
-    newDiv.click = savePreferences();
+    newDiv.setAttribute('style', 'margin-top: 25px');
+    $(newDiv).click(function(){savePreferences(opt)});
     newDiv.innerHTML = "Save"
     settings.appendChild(newDiv);
 
@@ -112,6 +107,21 @@ DomChanger.displaySettings = function (opt) {
     });
 }
 
+function savePreferences(opt) {
+    var mySlider = $("#ex1").slider();
+    var value = mySlider.slider('getValue');
+    opt.numTabs = value;
+
+    var mySlider = $("#ex2").slider();
+    var value = mySlider.slider('getValue');
+    opt.distPriority = value;
+
+    var mySlider = $("#ex3").slider();
+    var value = mySlider.slider('getValue');
+    opt.timePriority = value;
+
+    setSuggestionOptions(opt);
+}
 
 $(document).ready(function(){
     console.log("Ready!!");
