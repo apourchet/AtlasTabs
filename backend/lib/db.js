@@ -38,6 +38,9 @@ BigRedDb.insertData = function(data, cb) {
     BigRedDb.getDatabase(function(db) {
 	    var collection = db.collection(collectionName);
         var newData = Utils.reformatData(data)
+        if (!newData || newData.URLs.length == 0) {
+            return cb()
+        }
 	    collection.insert({data: newData, createdAt: new Date().getTime()}, function(err, item){
             if (err) console.log(err)
             cb()

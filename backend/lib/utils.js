@@ -58,6 +58,10 @@ Utils.curateItems = function(items) {
 }
 
 Utils.reformatData = function(data) {
+    if (!data || !data.location || !data.timeDifference || !data.distance) {
+        console.log("Malformed data!")
+        return undefined
+    }
     data.location = [Number(data.location[0]), Number(data.location[1])]
     data.timeDifference = Number(data.timeDifference)
     data.distance = Number(data.distance)
