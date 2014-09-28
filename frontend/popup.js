@@ -30,12 +30,10 @@ function getTabSuggestions(cb) {
             var lon = position.coords.longitude
             if (options.personal) {
                 $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat]}}, function(data) {
-                    document.body.style["background"] = "white"
                     cb(data.urls)
                 });    
             } else {
                 $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: 20}}, function(data) {
-                    document.body.style["background"] = "white"
                     cb(data.urls)
                 });
             }

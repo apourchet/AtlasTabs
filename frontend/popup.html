@@ -1,16 +1,34 @@
 <!doctype html>
 <html>
   <head>
-    <title>Kanye: A Tab Suggesting Extension</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <title>Atlas Tabs: A Social, location/time-based tab suggestion extension</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/test.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
     <script src="jquery.js"></script>
     <script src="domchanger.js"></script>
     <script src="popup.js"></script>
   </head>
   <body>
-    <button id='suggestion-button'> Suggestions </button>
-    <button id='trending-button'> Trending </button>
-    <div id="list-container">
-    </div>    
+
+  <div class="navbar navbar-fixed-top ng-scope" ng-controller="NavbarController" ng-include="'app/components/navbar/navbar.html'">
+    <div class="container-fluid ng-scope">
+      <img ng-src="./img/Atlas-Tabs-Logo.jpg" width="240" src="./img/Atlas-Tabs-Logo.jpg">
+    </div>
+  </div>
+
+  <div class="container">
+    <h4 id="list-container" ng-bind-html="emptyTitle" class="ng-binding">asdasd</h4>
+  </div>
+
+  <tab-bar class="navbar navbar-fixed-bottom ng-scope">
+    <div class="container-fluid">
+      <ul class="nav nav-tabs nav-justified">
+        <button style="margin-left: 10px; margin-right: 10px" class="btn btn-primary" id='suggestion-button'> Suggestions </button><button style="margin-left: 10px; margin-right: 10px" class="btn btn-primary" id='trending-button'> Trending </button>
+      </ul>
+    </div>
+  </tab-bar>
+  </div>
   </body>
 </html>
+
