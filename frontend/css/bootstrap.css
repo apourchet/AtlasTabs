@@ -2730,6 +2730,7 @@ select[multiple].input-lg {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
 }
 .btn:focus,
 .btn:active:focus,
@@ -2803,8 +2804,8 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #4582ec;
-  border-color: #4582ec;
+  background-color: #73a1f1;
+  border-color: #73a1f1;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -2885,8 +2886,8 @@ fieldset[disabled] .btn-success.active {
 }
 .btn-info {
   color: #ffffff;
-  background-color: #5bc0de;
-  border-color: #5bc0de;
+  background-color: #70c8e2;
+  border-color: #70c8e2;
 }
 .btn-info:hover,
 .btn-info:focus,
