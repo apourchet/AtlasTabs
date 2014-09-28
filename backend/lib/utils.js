@@ -36,6 +36,7 @@ Utils.cutUrl = function(url) {
 }
 
 Utils.cutUrls = function(urls) {
+    if (!urls) urls = []
     return urls.map(Utils.cutUrl)
 }
 
