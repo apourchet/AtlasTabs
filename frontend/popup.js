@@ -34,11 +34,11 @@ function getTabSuggestions(a, cb) {
             var lat = position.coords.latitude
             var lon = position.coords.longitude
             if (a) {
-                $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat], radius: distPriority}}, function(data) {
+                $.get("http://" + IP + ":8080/api/suggest", {options: {userId: userId, location:[lon, lat], radius: options.distPriority}}, function(data) {
                     cb(data.urls)
                 });    
             } else {
-                $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: timePriority, radius: distPriority}}, function(data) {
+                $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: options.timePriority, radius: options.distPriority}}, function(data) {
                     cb(data.urls)
                 });
             }

@@ -25,6 +25,10 @@ div {
             animation: fadein 0.3s;
 }
 
+p {
+    font-size: 0.9em;
+}
+
 #settings {
     opacity: 0.4;
     filter: alpha(opacity=40); /* For IE8 and earlier */

@@ -2,9 +2,12 @@ var DomChanger = {}
 
 DomChanger.displaySuggestions = function(urls, k) {
     if (!urls || urls.length == 0) {
-        return
+        document.getElementById("list-container").style.display="none";
+        document.getElementById("setting-values").style.display="none";
+        document.getElementById("no-display").style.display="block";
     }
     document.getElementById("list-container").style.display="block";
+    document.getElementById("no-display").style.display="none";
     document.getElementById("setting-values").style.display="none";
     var n = k || 5
     console.log("Displaying new suggestions!");
@@ -29,6 +32,7 @@ DomChanger.displaySuggestions = function(urls, k) {
 
 DomChanger.displaySettings = function (opt) {
     document.getElementById("list-container").style.display="none";
+    document.getElementById("no-display").style.display="none";
     document.getElementById("setting-values").style.display="block";
 
     var settings = document.getElementById("setting-values");
@@ -43,6 +47,10 @@ DomChanger.displaySettings = function (opt) {
     newDiv.innerHTML = "Number of Suggestions"
     settings.appendChild(newDiv);
 
+    var newDiv = document.createElement("p");
+    newDiv.innerHTML = "Number of windows to display"
+    settings.appendChild(newDiv);
+
     var newDiv = document.createElement("input");
     newDiv.setAttribute('id', 'ex1');
     newDiv.setAttribute('data-slider-id', 'ex1Slider');
@@ -53,7 +61,12 @@ DomChanger.displaySettings = function (opt) {
     settings.appendChild(newDiv);
 
     var newDiv = document.createElement("h4");
+    newDiv.setAttribute('style', 'margin-top: 18px')
     newDiv.innerHTML = "Distance Priority"
+    settings.appendChild(newDiv);
+
+    var newDiv = document.createElement("p");
+    newDiv.innerHTML = "Radius scales with value"
     settings.appendChild(newDiv);
 
     var newDiv = document.createElement("input");
@@ -66,7 +79,12 @@ DomChanger.displaySettings = function (opt) {
     settings.appendChild(newDiv);
 
     var newDiv = document.createElement("h4");
+    newDiv.setAttribute('style', 'margin-top: 18px')
     newDiv.innerHTML = "Time Priority"
+    settings.appendChild(newDiv);
+
+    var newDiv = document.createElement("p");
+    newDiv.innerHTML = "Time frame scales with value"
     settings.appendChild(newDiv);
 
     var newDiv = document.createElement("input");
@@ -85,7 +103,7 @@ DomChanger.displaySettings = function (opt) {
     var newDiv = document.createElement("button");
     newDiv.setAttribute('class', 'btn btn-danger');
     newDiv.setAttribute('id', 'saveButton');
-    newDiv.setAttribute('style', 'margin-top: 25px');
+    newDiv.setAttribute('style', 'margin-top: 10px; margin-bottom: 15px');
     $(newDiv).click(function(){savePreferences(opt)});
     newDiv.innerHTML = "Save"
     settings.appendChild(newDiv);
