@@ -3,32 +3,33 @@
   <head>
     <title>Atlas Tabs: A Social, location/time-based tab suggestion extension</title>
     <link rel="stylesheet" type="text/css" href="./css/main.css">
-    <link rel="stylesheet" type="text/css" href="./css/test.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
     <script src="jquery.js"></script>
     <script src="domchanger.js"></script>
     <script src="popup.js"></script>
+    <base target="_blank" />
   </head>
   <body>
 
-  <div class="navbar navbar-fixed-top ng-scope" ng-controller="NavbarController" ng-include="'app/components/navbar/navbar.html'">
-    <div class="container-fluid ng-scope">
-      <img ng-src="./img/Atlas-Tabs-Logo.jpg" width="240" src="./img/Atlas-Tabs-Logo.jpg">
+    <div class="row">
+      <div class="col-md-12">
+        <img ng-src="./img/Atlas-Tabs-Logo.jpg" width="250" src="./img/Atlas-Tabs-Logo.jpg">
+      </div>
     </div>
-  </div>
 
-  <div class="container">
-    <h4 id="list-container" ng-bind-html="emptyTitle" class="ng-binding">asdasd</h4>
-  </div>
-
-  <tab-bar class="navbar navbar-fixed-bottom ng-scope">
-    <div class="container-fluid">
-      <ul class="nav nav-tabs nav-justified">
-        <button style="margin-left: 10px; margin-right: 10px" class="btn btn-primary" id='suggestion-button'> Suggestions </button><button style="margin-left: 10px; margin-right: 10px" class="btn btn-primary" id='trending-button'> Trending </button>
-      </ul>
+    <div class="row">
+      <div class="col-md-11" style="overflow-y:auto;">
+        <ul style="height: 300px" id="list-container" class="list-group">
+        </ul>
+      </div>
     </div>
-  </tab-bar>
-  </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <button style="margin-left: 10px; margin-right: 10px" class="btn btn-primary" id='suggestion-button'> Suggestions </button>
+        <button style="margin-left: 10px; margin-right: 10px" class="btn btn-primary" id='trending-button'> Trending </button>
+      </div>
+    </div>
   </body>
 </html>
 

@@ -24,7 +24,6 @@ function getTabSuggestions(cb) {
         return cb([])
     }
     if (navigator.geolocation) {
-        document.body.style["background"] = "blue"
 	    navigator.geolocation.getCurrentPosition(function (position){
             var lat = position.coords.latitude
             var lon = position.coords.longitude

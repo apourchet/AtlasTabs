@@ -13,8 +13,9 @@ DomChanger.displaySuggestions = function(urls) {
     }
     for (var i in urls) {
         var url = urls[i];
-        var newDiv = document.createElement("div");
-        newDiv.innerHTML = url;
+        var newDiv = document.createElement("li");
+        newDiv.innerHTML = '<a href="' + url + '">' + url + '</a>';
+        newDiv.setAttribute('class', 'list-group-item');
         container.appendChild(newDiv);
     }
 }
