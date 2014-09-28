@@ -61,12 +61,7 @@ Utils.reformatData = function(data) {
     data.location = [Number(data.location[0]), Number(data.location[1])]
     data.timeDifference = Number(data.timeDifference)
     data.distance = Number(data.distance)
-    for (var i in data.URLs) {
-        url = data.URLs[i];
-        if (!Utils.isUrlValid(url)) {
-            data.URLs.splice(i,1)
-            i--
-        }
-    }
+    data.URLs = Utils.cutUrls(data.URLs)
+    data.URLs = data.URLs.filter(Utils.isUrlValid);
     return data
 }

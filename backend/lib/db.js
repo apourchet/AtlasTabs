@@ -38,7 +38,7 @@ BigRedDb.insertData = function(data, cb) {
     BigRedDb.getDatabase(function(db) {
 	    var collection = db.collection(collectionName);
         var newData = Utils.reformatData(data)
-	    collection.insert({data: data, createdAt: new Date().getTime()}, function(err, item){
+	    collection.insert({data: newData, createdAt: new Date().getTime()}, function(err, item){
             if (err) console.log(err)
             cb()
         });
@@ -48,6 +48,11 @@ BigRedDb.insertData = function(data, cb) {
 BigRedDb.getTrending = function(params, cb) {
     BigRedDb.getDatabase(function(db, endF) {
     	var collection = db.collection(collectionName);
+        if (!params || !params.location ||
+            params.location.length < 2 || !params.timeFrame) {
+            console.log("Badly formed request!")
+            return cb([])
+        }
         var lon = Number(params.location[0])
         var lat = Number(params.location[1])
         var mins = Number(params.timeFrame)
@@ -72,6 +77,11 @@ BigRedDb.getTrending = function(params, cb) {
 BigRedDb.getSuggestions = function(params, cb) {
     BigRedDb.getDatabase(function(db, endF) {
     	var collection = db.collection(collectionName);
+        if (!params || !params.location ||
+            params.location.length < 2 || !params.timeFrame) {
+            console.log("Badly formed request!")
+            return cb([])
+        }
         var lon = Number(params.location[0])
         var lat = Number(params.location[1])
         var query = {
