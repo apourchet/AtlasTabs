@@ -56,6 +56,7 @@ BigRedDb.getTrending = function(params, cb) {
             console.log("Badly formed request!")
             return cb([])
         }
+        var rad = params.radius || 100
         var lon = Number(params.location[0])
         var lat = Number(params.location[1])
         var mins = Number(params.timeFrame)
@@ -64,7 +65,7 @@ BigRedDb.getTrending = function(params, cb) {
             "data.location": {
                 $near: {
                     $geometry: {type: "Point", coordinates: [lon, lat]}, 
-                    $maxDistance: 1000, 
+                    $maxDistance: rad, 
                     $minDistance: 0
                 }
             },
@@ -85,6 +86,7 @@ BigRedDb.getSuggestions = function(params, cb) {
             console.log("Badly formed request!")
             return cb([])
         }
+        var rad = params.radius || 100
         var lon = Number(params.location[0])
         var lat = Number(params.location[1])
         var query = {
@@ -92,7 +94,7 @@ BigRedDb.getSuggestions = function(params, cb) {
             "data.location": {
                 $near: {
                     $geometry: {type: "Point", coordinates: [lon, lat]}, 
-                    $maxDistance: 1000, 
+                    $maxDistance: rad, 
                     $minDistance: 0
                 }
             }
