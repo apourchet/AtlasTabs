@@ -39,6 +39,7 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
     myArray.sort(function(a,b) {
         return a.url > b.url ? 1 : -1
     });
+    myArray.push("")
     var semiFinalArray = [] 
     var u = myArray[0].url
     var sim = []
@@ -60,8 +61,6 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
         for (var e in semiFinalArray[elem].similarities){
             num ++
             sum += semiFinalArray[elem].similarities[e]
-            //if (num == 10)
-            //    break
         }
         finalArray.push({url: semiFinalArray[elem].url, sim: (Math.log(num)/(sum/num))})
     }
@@ -85,19 +84,20 @@ QueryHelper.getPublicURLRanked = function(array, lon, lat){
         var d = array[e].data.distance
         var i = array[e].data.id
         for(var f in elem){
-            myArray.push({url: Utils.cutUrl(elem[f]), timeDifference: td, distance: d, id: i})
+            myArray.push({url: elem[f], timeDifference: td, distance: d, id: i})
         };
     };
     myArray.sort(function(a,b) {
         return a.url > b.url ? 1 : -1
     });
-    
+    myArray.push("")
     var semiFinalArray = [] 
     var u = myArray[0].url
     var sim = []
     var temp = []
+    var endR = {}
     for (var i = 0; i < myArray.length; i++){
-        var s = Math.exp(myArray[0].distance) + Math.exp(myArray[0].timeDifference)
+        var s = Math.exp(myArray[i].distance) + Math.exp(myArray[i].timeDifference)
         if (u === myArray[i].url){
             sim.push(s)
             temp.push(myArray[i].id)
@@ -116,8 +116,6 @@ QueryHelper.getPublicURLRanked = function(array, lon, lat){
         for (var e in semiFinalArray[elem].similarities){
             num ++
             sum += semiFinalArray[elem].similarities[e]
-            //if (num == 10)
-            //    break
         }
         finalArray.push({url: semiFinalArray[elem].url, sim: (Math.log(num)*Math.exp(semiFinalArray[elem].numIds)/(sum/num))})
     }

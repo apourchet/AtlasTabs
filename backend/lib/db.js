@@ -78,7 +78,7 @@ BigRedDb.getSuggestions = function(params, cb) {
     BigRedDb.getDatabase(function(db, endF) {
     	var collection = db.collection(collectionName);
         if (!params || !params.location ||
-            params.location.length < 2 || !params.timeFrame) {
+            params.location.length < 2) {
             console.log("Badly formed request!")
             return cb([])
         }
