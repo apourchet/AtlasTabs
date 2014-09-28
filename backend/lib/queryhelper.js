@@ -29,11 +29,11 @@ QueryHelper.getSuggestedURLs = function(array, lon, lat){
     };
     var myArray = []
     for (var e in array){
-        var elem = Utils.filterUrls(array[e].data.URLs)
+        var elem = array[e].data.URLs
         var td = array[e].data.timeDifference
         var d = array[e].data.distance
         for(var f in elem){
-            myArray.push({url: Utils.cutUrl(elem[f]), timeDifference: td, distance: d})
+            myArray.push({url: elem[f], timeDifference: td, distance: d})
         };
     };
     myArray.sort(function(a,b) {
@@ -79,7 +79,7 @@ QueryHelper.getPublicURLRanked = function(array, lon, lat){
     };
     var myArray = []
     for (var e in array){
-        var elem = Utils.filterUrls(array[e].data.URLs)
+        var elem = array[e].data.URLs
         var td = array[e].data.timeDifference
         var d = array[e].data.distance
         var i = array[e].data.id
@@ -124,3 +124,4 @@ QueryHelper.getPublicURLRanked = function(array, lon, lat){
     })
     return finalArray.map(function(el){return el.url});
 }
+
