@@ -39,6 +39,9 @@ function getTabSuggestions(a, cb) {
                 });    
             } else {
                 $.get("http://" + IP + ":8080/api/trending", {options: {location:[lon, lat], timeFrame: options.timePriority, radius: options.distPriority}}, function(data) {
+                    DomChanger.displaySuggestions(data.urls, options.numTabs);
+                    cacheSuggestions(data.urls, a)
+                    reloadDisplay()
                     cb(data.urls)
                 });
             }
@@ -55,8 +58,13 @@ function reloadSuggestions(a) {
 }
 
 function cacheSuggestions(urls, a) {
+    lastLoaded[a] = urls
     var obj = {}
-    obj["lastLoaded" + a] = urls
+    if (a) {
+        obj["lastLoaded1"] = urls
+    } else {
+        obj["lastLoaded0"] = urls
+    }
     chrome.storage.local.set(obj, function(){});
 }
 
@@ -116,9 +124,6 @@ function openAll() {
 }
 
 function setIntervals() {
-    setTimeout(function(){
-        reloadDisplay()
-    }, 50);
     setInterval(function(){
 	    reloadSuggestions(0);
 	}, 2000);
