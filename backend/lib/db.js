@@ -73,7 +73,7 @@ BigRedDb.getTrending = function(params, cb) {
         }
     	collection.find(query).limit(5000).sort({ createdAt: -1 }).toArray(function(err, items) {
             var urls = QHelper.getPublicURLRanked(items, lon, lat);
-            console.log(urls)
+            // console.log(urls)
             cb(urls)
     	});
     });
@@ -102,11 +102,11 @@ BigRedDb.getSuggestions = function(params, cb) {
         }
     	collection.find(query).sort({ createdAt: -1 }).toArray(function(err, items) {
             if (!items || items.length == 0) {
-                console.log(err)
+                console.log(params)
                 return cb([])
             }
             var urls = QHelper.getSuggestedURLs(items, lon, lat)
-            console.log(urls)
+            // console.log(urls)
             cb(urls);
     	});
     });
